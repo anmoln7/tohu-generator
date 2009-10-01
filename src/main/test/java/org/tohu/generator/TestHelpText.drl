@@ -1,0 +1,28 @@
+package org.tohu.generator
+
+import org.tohu.Question;
+import org.tohu.Group;
+import org.tohu.Note;
+
+rule "create a note"
+dialect "mvel"
+	when
+		$q : Question( id == "Question-1" )
+		$g : Group (items != null && items contains "Question-1")
+		not ( Note( id == "Question-1-help" ) )
+	then
+		Note note = new Note("Question-1-help", "Help text for question 1");
+		note.setPresentationStyles({"tip"});
+		insert (note);		
+end
+
+rule "insert a tip"
+dialect "mvel"
+	when
+		$q : Question( id == "Question-1" )
+		$g : Group (items != null && items contains "Question-1")
+		$n : Note( id == "Question-1-help", (presentationStyles != null && presentationStyles contains "tip") )
+	then
+		$g.insertItem($n.getId(), $q.getId());
+		update ($g);
+end

@@ -1,0 +1,52 @@
+template header
+itemID
+label
+groupID
+type
+style
+questionID
+condition
+ 
+package org.tohu.generator;
+
+ /*
+  * This package has been generated using Tohu Generator
+  * Do not modify by hand if you wish to regenerate
+  */
+  
+import org.tohu.Questionnaire;
+import org.tohu.Group;
+import org.tohu.Question;
+
+template "Conditional-Questions"
+
+rule "Conditional_Question_Add_@{itemID}_@{row.rowNumber}"
+dialect "mvel"
+	when
+		$g : Group ( id == "@{groupID}", items == null || items not contains "@{itemID}" )
+		Question ( id == "@{questionID}", answered == true, textAnswer == "@{condition}" )
+	then
+		Question question = new Question("@{itemID}");
+		question.setPreLabel("@{label}");
+		question.setAnswerType("@{type}");
+		question.setPresentationStyles({"@{style}"});		
+		insert(question);
+		
+		$g.appendItem( "@{itemID}", "@{questionID}" );
+		update( $g );		
+end
+
+rule "Conditional_Question_Retract_@{itemID}_@{row.rowNumber}"
+dialect "mvel"
+	when
+		$g : Group ( id == "@{groupID}", items != null && items contains "@{itemID}" )
+		Question ( id == "@{questionID}", answered == true, textAnswer != "@{condition}" )
+		$q : Question ( id == "@{itemID}" )
+	then		
+		$g.removeItem( "@{itemID}" );
+		update( $g );		
+		retract($q);
+end
+		
+
+end template

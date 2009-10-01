@@ -1,0 +1,37 @@
+template header
+Name
+SpreadSheet
+WorkSheet
+Row
+Column
+Template
+OutputFile
+OutputDirectory
+ 
+
+package org.tohu.generator;
+
+ /*
+  * This package has been generated using Tohu Generator
+  * Do not modify by hand if you wish to regenerate
+  */
+  
+import org.tohu.generator.TohuSpreadsheetCompiler;
+global TohuSpreadsheetCompiler compiler;
+
+template "control"
+
+rule "Tohu_Control_@{Name}_@{row.rowNumber}"
+	when
+		// no conditions here
+	then
+		String drlString = compiler.getDrlAsStringFromSpreadsheet("@{SpreadSheet}", "@{WorkSheet}", "@{Template}", @{Row}, @{Column});
+		compiler.writeDrl(drlString, "@{OutputDirectory}@{OutputFile}");
+
+		// think about adding some error checking to the parameters, ie does the output dir have a trailing /
+		
+		// remove later, just for development
+		System.out.println(drlString);
+end
+
+end template

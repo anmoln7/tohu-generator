@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>tohu</artifactId>
+    <groupId>org.tohu</groupId>
+    <version>1.0.1-SNAPSHOT</version>
+  </parent>
+
+	<artifactId>tohu-generator</artifactId>
+
+	<packaging>jar</packaging>
+	<name>Tohu :: Generator</name>
+
+	<build>
+		<finalName>tohu-generator</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-api</artifactId>
+      <version>5.1.0.SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-compiler</artifactId>
+      <version>5.1.0.SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-core</artifactId>
+      <version>5.1.0.SNAPSHOT</version>
+    </dependency>
+      <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-decisiontables</artifactId>
+      <version>5.1.0.SNAPSHOT</version>
+    </dependency>
+      <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-templates</artifactId>
+      <version>5.1.0.SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+  
+<!--  -->
+<!--	<repositories>-->
+<!--		<repository>-->
+<!--			<id>repository.jboss.org</id>-->
+<!--			<url>http://repository.jboss.org/maven2</url>-->
+<!--			<snapshots>-->
+<!--				<enabled>false</enabled>-->
+<!--			</snapshots>-->
+<!--			<releases>-->
+<!--				<enabled>true</enabled>-->
+<!--			</releases>-->
+<!--		</repository>-->
+<!--		<repository>-->
+<!--			<id>snapshots.jboss.org</id>-->
+<!--			<url>http://snapshots.jboss.org/maven2</url>-->
+<!--			<snapshots>-->
+<!--				<enabled>true</enabled>-->
+<!--			</snapshots>-->
+<!--			<releases>-->
+<!--				<enabled>false</enabled>-->
+<!--			</releases>-->
+<!--		</repository>-->
+<!--		-->
+<!--			TODO this is only temporary until the release versions of-->
+<!--			drools-execution-server and tohu are in the jboss.org maven-->
+<!--			repository-->
+<!--		-->
+<!--		<repository>-->
+<!--			<id>temp.local</id>-->
+<!--			<url>http://anonsvn.jboss.org/repos/tohu/trunk/tohu/lib/</url>-->
+<!--			<snapshots>-->
+<!--				<enabled>true</enabled>-->
+<!--			</snapshots>-->
+<!--			<releases>-->
+<!--				<enabled>true</enabled>-->
+<!--			</releases>-->
+<!--		</repository>-->
+<!--	</repositories>-->
+
+</project>
