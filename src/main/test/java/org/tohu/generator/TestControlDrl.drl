@@ -1,6 +1,6 @@
 package org.tohu.generator;
 import org.tohu.generator.TohuSpreadsheetCompiler;
-global TohuSpreadsheetCompiler compiler;
+global org.tohu.generator.TohuSpreadsheetCompiler compiler;
 
 rule "Tohu_Control_8"
 	when
