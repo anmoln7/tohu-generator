@@ -39,7 +39,7 @@ public class ConditionalMultiChoiceQuestionsTest {
 	@Test
 	public void testBasicCreationOfQuestion() throws Exception {
 		try {
-			KnowledgeBase kbase = readKnowledgeBase("org/tohu/generated/TestConditionalMultiChoiceQuestions.drl");
+			KnowledgeBase kbase = readKnowledgeBase("org/tohu/generator/TestConditionalMultiChoiceQuestions.drl");
 			StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
 			KnowledgeRuntimeLogger logger = KnowledgeRuntimeLoggerFactory.newFileLogger(ksession, "test");
 			

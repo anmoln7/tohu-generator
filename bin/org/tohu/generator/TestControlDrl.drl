@@ -1,0 +1,12 @@
+package org.tohu.generator;
+import org.tohu.generator.TohuSpreadsheetCompiler;
+global org.tohu.generator.TohuSpreadsheetCompiler compiler;
+
+rule "Tohu_Control_8"
+	when
+		// no conditions here
+	then
+		String drlString = compiler.getDrlAsStringFromSpreadsheet("TohuTemplate-v0.2.xls", "Questionnaire", "HelpText.drt", 64, 2);
+		System.out.println(drlString);
+//		compiler.writeDrl(drlString, "Tohu-HelpText.drl");
+end

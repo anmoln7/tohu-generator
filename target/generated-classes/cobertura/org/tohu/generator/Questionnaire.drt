@@ -2,7 +2,6 @@ template header
 itemID
 label
 startGroup
-completionAction
 
 package org.tohu.generator;
 
@@ -21,7 +20,7 @@ rule "Questionnaire_@{row.rowNumber}"
 	then
 		Questionnaire questionnaire = new Questionnaire("@{itemID}");
 		questionnaire.setLabel("@{label}");
-		questionnaire.setCompletionAction("@{completionAction}");
+		questionnaire.setCompletionAction("extract.pdf");
 		questionnaire.setActiveItem("@{startGroup}");
 		insertLogical(questionnaire);		
 end

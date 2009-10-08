@@ -54,7 +54,7 @@ public class HelpTextTest {
 	@Test
 	public void testHelpTextFromFile() throws Exception {
 		try {
-			KnowledgeBase kbase = readKnowledgeBase("org/tohu/generated/TestHelpText.drl");
+			KnowledgeBase kbase = readKnowledgeBase("org/tohu/generator/TestHelpText.drl");
 			StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
 			KnowledgeRuntimeLogger logger = KnowledgeRuntimeLoggerFactory.newFileLogger(ksession, "test");
 			
