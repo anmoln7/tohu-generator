@@ -1,2 +1,5 @@
 .svn
+.classpath
+.project
+bin
 target
