@@ -9,8 +9,9 @@ rule "MultiChoice_Conditional_Question_Add_itemID_row.rowNumber"
 dialect "mvel"
 	when
 		$g : Group ( id == "groupID", items == null || items not contains "itemID" )
-		( or MultipleChoiceQuestion ( id == "questionID", answered == true, textAnswer == "condition" )
-			 Question ( id == "questionID", answered == true, textAnswer == "condition" ))
+#		( or MultipleChoiceQuestion ( id == "questionID", answered == true, textAnswer == "condition" )
+#			 Question ( id == "questionID", answered == true, textAnswer == "condition" ))
+		Question ( id == "questionID", answered == true, textAnswer == "condition" )
 	then
 		MultipleChoiceQuestion question = new MultipleChoiceQuestion("itemID");
 		question.setPreLabel("label");
@@ -26,8 +27,9 @@ rule "MultiChoice_Conditional_Question_Retract_itemID_row.rowNumber"
 dialect "mvel"
 	when
 		$g : Group ( id == "groupID", items != null && items contains "itemID" )
-		( or MultipleChoiceQuestion ( id == "questionID", answered == true, textAnswer != "condition" )
-			 Question ( id == "questionID", answered == true, textAnswer != "condition" ) )
+#		( or MultipleChoiceQuestion ( id == "questionID", answered == true, textAnswer != "condition" )
+#			 Question ( id == "questionID", answered == true, textAnswer != "condition" ) )
+		Question ( id == "questionID", answered == true, textAnswer != "condition" )
 		$q : MultipleChoiceQuestion ( id == "itemID" )		      
 	then		
 		$g.removeItem( "itemID" );

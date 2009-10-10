@@ -37,7 +37,7 @@ public class ConditionalMultiChoiceQuestionsTest {
 
 	@SuppressWarnings("deprecation")
 	@Test
-	public void testBasicCreationOfQuestion() throws Exception {
+	public void testQuestion() throws Exception {
 		try {
 			KnowledgeBase kbase = readKnowledgeBase("org/tohu/generator/TestConditionalMultiChoiceQuestions.drl");
 			StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
@@ -56,7 +56,7 @@ public class ConditionalMultiChoiceQuestionsTest {
 			ksession.insert(question);
 			ksession.fireAllRules();
 
-			System.out.println(group.getId());
+			System.out.println("Test Question " + group.getId());
 			System.out.println(group.getItemsAsString());
 
 			logger.close();
@@ -65,6 +65,35 @@ public class ConditionalMultiChoiceQuestionsTest {
 		}		
 	}
 	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void testMultiChoiceQuestion() throws Exception {
+		try {
+			KnowledgeBase kbase = readKnowledgeBase("org/tohu/generator/TestConditionalMultiChoiceQuestions.drl");
+			StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
+			KnowledgeRuntimeLogger logger = KnowledgeRuntimeLoggerFactory.newFileLogger(ksession, "test");
+			
+			Group group = new Group();
+			group.setId("groupID");
+			group.setItemsAsString("questionID");
+			
+			MultipleChoiceQuestion question = new MultipleChoiceQuestion();
+			question.setId("questionID");
+			question.setAnswerType(Question.TYPE_TEXT);
+			question.setTextAnswer("condition");
+
+			ksession.insert(group);
+			ksession.insert(question);
+			ksession.fireAllRules();
+
+			System.out.println("Test MultipleChoiceQuestion " + group.getId());
+			System.out.println(group.getItemsAsString());
+
+			logger.close();
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}		
+	}
 
     /** Build the rule base from the generated DRL */
     private RuleBase buildRuleBase(String... drls) throws DroolsParserException, IOException, Exception {
