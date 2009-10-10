@@ -56,8 +56,7 @@ public class ConditionalMultiChoiceQuestionsTest {
 			ksession.insert(question);
 			ksession.fireAllRules();
 
-			System.out.println("Test Question " + group.getId());
-			System.out.println(group.getItemsAsString());
+			assertEquals("questionID,itemID", group.getItemsAsString());
 
 			logger.close();
 		} catch (Throwable t) {
@@ -86,8 +85,7 @@ public class ConditionalMultiChoiceQuestionsTest {
 			ksession.insert(question);
 			ksession.fireAllRules();
 
-			System.out.println("Test MultipleChoiceQuestion " + group.getId());
-			System.out.println(group.getItemsAsString());
+			assertEquals("questionID,itemID", group.getItemsAsString());
 
 			logger.close();
 		} catch (Throwable t) {
