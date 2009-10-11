@@ -33,13 +33,13 @@ import org.drools.logger.KnowledgeRuntimeLoggerFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
 
 
-public class ConditionalMultiChoiceQuestionsTest {
+public class ConditionalNotesTest {
 
 	@SuppressWarnings("deprecation")
 	@Test
-	public void testQuestion() throws Exception {
+	public void testAddNote() throws Exception {
 		try {
-			KnowledgeBase kbase = readKnowledgeBase("org/tohu/generator/TestConditionalMultiChoiceQuestions.drl");
+			KnowledgeBase kbase = readKnowledgeBase("org/tohu/generator/TestConditionalNotes.drl");
 			StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
 			KnowledgeRuntimeLogger logger = KnowledgeRuntimeLoggerFactory.newFileLogger(ksession, "test");
 			
@@ -66,9 +66,9 @@ public class ConditionalMultiChoiceQuestionsTest {
 	
 	@SuppressWarnings("deprecation")
 	@Test
-	public void testMultiChoiceQuestion() throws Exception {
+	public void testRemoveNoteWrongAnswer() throws Exception {
 		try {
-			KnowledgeBase kbase = readKnowledgeBase("org/tohu/generator/TestConditionalMultiChoiceQuestions.drl");
+			KnowledgeBase kbase = readKnowledgeBase("org/tohu/generator/TestConditionalNotes.drl");
 			StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
 			KnowledgeRuntimeLogger logger = KnowledgeRuntimeLoggerFactory.newFileLogger(ksession, "test");
 			
@@ -79,13 +79,13 @@ public class ConditionalMultiChoiceQuestionsTest {
 			MultipleChoiceQuestion question = new MultipleChoiceQuestion();
 			question.setId("questionID");
 			question.setAnswerType(Question.TYPE_TEXT);
-			question.setTextAnswer("condition");
+			question.setTextAnswer("wrong answer");
 
 			ksession.insert(group);
 			ksession.insert(question);
 			ksession.fireAllRules();
 
-			assertEquals("questionID,itemID", group.getItemsAsString());
+			assertEquals("questionID", group.getItemsAsString());
 
 			logger.close();
 		} catch (Throwable t) {
@@ -93,26 +93,6 @@ public class ConditionalMultiChoiceQuestionsTest {
 		}		
 	}
 
-    /** Build the rule base from the generated DRL */
-    private RuleBase buildRuleBase(String... drls) throws DroolsParserException, IOException, Exception {
-        //now we build the rule package and rulebase, as if they are normal rules
-        PackageBuilder builder = new PackageBuilder();
-        for ( String drl : drls ) {
-            builder.addPackageFromDrl( new StringReader( drl ) );
-        }
-        
-        if (builder.hasErrors()) {
-        	System.out.println(builder.getErrors().toString());
-        	return null;
-        }
-        else {
-        	//add the package to a rulebase (deploy the rule package).
-        	RuleBase ruleBase = RuleBaseFactory.newRuleBase();
-        	ruleBase.addPackage( builder.getPackage() );
-        	return ruleBase;
-        }
-    }
-    
 	private static KnowledgeBase readKnowledgeBase(String drlName) throws Exception {
 		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
 //		kbuilder.add(ResourceFactory.newFileResource(drlName), ResourceType.DRL);

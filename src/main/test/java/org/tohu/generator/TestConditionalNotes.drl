@@ -1,0 +1,32 @@
+package org.tohu.generator
+  
+import org.tohu.Questionnaire;
+import org.tohu.Group;
+import org.tohu.Question;
+import org.tohu.MultipleChoiceQuestion;
+import org.tohu.Note;
+
+rule "Conditional_Note_Add_itemID_row.rowNumber"
+dialect "mvel"
+	when
+		$group : Group ( id == "groupID", items == null || items not contains "itemID" )
+		Question ( id == "questionID", answered == true, textAnswer == "condition" )
+	then
+		Note note = new Note("itemID", "label");
+		insert(note);
+		
+		$group.appendItem( "itemID", "questionID" );
+		update( $group );		
+end
+
+rule "Conditional_Note_Remove_itemID_row.rowNumber"
+dialect "mvel"
+	when
+		$group : Group ( id == "groupID", items != null && items contains "itemID" )
+		Question ( id == "questionID", answered == true, textAnswer != "condition" )
+		$note : Note ( id == "itemID" )		      
+	then		
+		$group.removeItem( "itemID" );
+		update( $group );		
+		retract($note);
+end
