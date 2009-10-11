@@ -1,8 +1,6 @@
 template header
 itemID
 label
-groupID
-type
 style
 questionID
 condition
@@ -21,20 +19,30 @@ import org.tohu.MultipleChoiceQuestion;
 
 template "MultiChoice-Conditional-Questions"
 
-rule "MultiChoice_Conditional_Question_Add_@{itemID}_@{row.rowNumber}"
+rule "Conditional_Note_Create_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
-		$group : Group ( id == "@{groupID}", items == null || items not contains "@{itemID}" )
 		Question ( id == "@{questionID}", answered == true, textAnswer == "@{condition}" )
+		$group : Group ( items == null || items not contains "@{questionID}" )
+		not ( Note( id == "@{itemID}" ) )
 	then
 		Note note = new Note("@{itemID}", "@{label}");
-		insert(note);
-		
-		$group.appendItem( "@{itemID}", "@{questionID}" );
-		update( $group );		
+		note.setPresentationStyles({"@{style}"});
+		insert(note);	
 end
 
-rule "MultiChoice_Conditional_Question_Retract_@{itemID}_@{row.rowNumber}"
+rule "Insert_Conditional_Expanded_Tip_@{itemID}_@{row.rowNumber}"
+dialect "mvel"
+	when
+		$q : Question( id == "@{questionID}" )
+		$g : Group (items != null && items contains "@{questionID}" && items not contains "@{itemID}")
+		$n : Note( id == "@{itemID}", (presentationStyles != null && presentationStyles contains "expandedTip") )
+	then
+		$g.appendItem($n.getId(), $q.getId());
+		update ($g);
+end
+
+rule "Conditional_Note_Retract_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
 		$group : Group ( id == "@{groupID}", items != null && items contains "@{itemID}" )
