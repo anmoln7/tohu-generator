@@ -77,18 +77,18 @@ public class ValidationExpressionTest {
 			Question question = new Question();
 			question.setId("questionID");
 			question.setAnswerType(Question.TYPE_TEXT);
-			question.setTextAnswer("name@myorg.com");
+			question.setTextAnswer("my.name@myorg.com");
 
 			ksession.insert(question);
 			ksession.fireAllRules();
 
 			QueryResults results = ksession.getQueryResults( "find invalid answers" );
 
-			for ( QueryResultsRow row : results ) {
-			    InvalidAnswer invalidAnswer = ( InvalidAnswer ) row.get( "invalidAnswer" );
-			    System.out.println(invalidAnswer.getReason());
-			}		
-//			assertEquals(0, results.size());
+//			for ( QueryResultsRow row : results ) {
+//			    InvalidAnswer invalidAnswer = ( InvalidAnswer ) row.get( "invalidAnswer" );
+//			    System.out.println(invalidAnswer.getReason());
+//			}		
+			assertEquals(0, results.size());
 
 			logger.close();
 		} catch (Throwable t) {

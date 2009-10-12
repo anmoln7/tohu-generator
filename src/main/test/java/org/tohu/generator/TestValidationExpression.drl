@@ -14,7 +14,7 @@ end
 rule "validate with regular expression"
 dialect "java"
 	when
-		$question : Question ( id == "questionID", textAnswer not matches "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$" )
+		$question : Question ( id == "questionID", textAnswer not matches "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" )
 	then 
 		InvalidAnswer invalidAnswer = new InvalidAnswer($question.getId(), "Invalid answer that does not match expression");
 		insert (invalidAnswer);
