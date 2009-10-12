@@ -16,14 +16,15 @@ import org.tohu.Questionnaire;
 import org.tohu.Group;
 import org.tohu.Question;
 import org.tohu.MultipleChoiceQuestion;
+import org.tohu.Note;
 
-template "MultiChoice-Conditional-Questions"
+template "Conditional-Notes"
 
 rule "Conditional_Note_Create_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
 		Question ( id == "@{questionID}", answered == true, textAnswer == "@{condition}" )
-		$group : Group ( items == null || items not contains "@{questionID}" )
+		Group ( items == null || items not contains "@{questionID}" )
 		not ( Note( id == "@{itemID}" ) )
 	then
 		Note note = new Note("@{itemID}", "@{label}");
@@ -34,20 +35,20 @@ end
 rule "Insert_Conditional_Expanded_Tip_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
-		$q : Question( id == "@{questionID}" )
-		$g : Group (items != null && items contains "@{questionID}" && items not contains "@{itemID}")
-		$n : Note( id == "@{itemID}", (presentationStyles != null && presentationStyles contains "expandedTip") )
+		$question : Question( id == "@{questionID}" )
+		$group : Group (items != null && items contains "@{questionID}" && items not contains "@{itemID}")
+		$note : Note( id == "@{itemID}", (presentationStyles != null && presentationStyles contains "expandedTip") )
 	then
-		$g.appendItem($n.getId(), $q.getId());
-		update ($g);
+		$group.appendItem($note.getId(), $question.getId());
+		update ($group);
 end
 
 rule "Conditional_Note_Retract_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
-		$group : Group ( id == "@{groupID}", items != null && items contains "@{itemID}" )
-		Question ( id == "@{questionID}", answered == true, textAnswer != "@{condition}" )
-		$note : Note ( id == "@{itemID}" )		      
+		$question : Question( id == "@{questionID}", answered == true, textAnswer != "@{condition}" )
+		$group : Group (items != null && items contains "@{questionID}" && items contains "@{itemID}")
+		$note : Note( id == "@{itemID}" )
 	then		
 		$group.removeItem( "@{itemID}" );
 		update( $group );		

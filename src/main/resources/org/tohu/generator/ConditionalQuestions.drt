@@ -24,7 +24,7 @@ template "Conditional-Questions"
 rule "Conditional_Question_Add_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
-		$g : Group ( id == "@{groupID}", items == null || items not contains "@{itemID}" )
+		$group : Group ( id == "@{groupID}", items == null || items not contains "@{itemID}" )
 		Question ( id == "@{questionID}", answered == true, textAnswer == "@{condition}" )
 	then
 		Question question = new Question("@{itemID}");
@@ -34,20 +34,20 @@ dialect "mvel"
 		question.setRequired(@{required});		
 		insert(question);
 		
-		$g.appendItem( "@{itemID}", "@{questionID}" );
-		update( $g );		
+		$group.appendItem( "@{itemID}", "@{questionID}" );
+		update( $group );		
 end
 
 rule "Conditional_Question_Retract_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
-		$g : Group ( id == "@{groupID}", items != null && items contains "@{itemID}" )
+		$group : Group ( id == "@{groupID}", items != null && items contains "@{itemID}" )
 		Question ( id == "@{questionID}", answered == true, textAnswer != "@{condition}" )
-		$q : Question ( id == "@{itemID}" )
+		$question : Question ( id == "@{itemID}" )
 	then		
-		$g.removeItem( "@{itemID}" );
-		update( $g );		
-		retract($q);
+		$group.removeItem( "@{itemID}" );
+		update( $group );		
+		retract($question);
 end
 		
 
