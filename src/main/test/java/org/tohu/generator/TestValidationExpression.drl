@@ -1,0 +1,21 @@
+package org.tohu.generator
+  
+import org.tohu.Questionnaire;
+import org.tohu.Group;
+import org.tohu.Question;
+import org.tohu.MultipleChoiceQuestion;
+import org.tohu.Note;
+import org.tohu.InvalidAnswer;
+
+query "find invalid answers"
+	invalidAnswer : InvalidAnswer ()
+end
+
+rule "validate with regular expression"
+dialect "java"
+	when
+		$question : Question ( id == "questionID", textAnswer not matches "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$" )
+	then 
+		InvalidAnswer invalidAnswer = new InvalidAnswer($question.getId(), "Invalid answer that does not match expression");
+		insert (invalidAnswer);
+end
