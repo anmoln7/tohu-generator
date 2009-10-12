@@ -22,7 +22,7 @@ template "Multi-Choice-Questions"
 rule "Multi_Choice_Question_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
-		$g : Group ( id == "@{groupID}", items == null || items not contains "@{itemID}" )
+		$group : Group ( id == "@{groupID}", items == null || items not contains "@{itemID}" )
 	then
 		MultipleChoiceQuestion question = new MultipleChoiceQuestion("@{itemID}");
 		question.setPreLabel("@{label}");
@@ -30,8 +30,8 @@ dialect "mvel"
 		question.setPresentationStyles({"@{style}"});
 		insert(question);
 		
-		$g.addItem( "@{itemID}" );
-		update( $g );		
+		$group.addItem( "@{itemID}" );
+		update( $group );		
 end
 
 end template

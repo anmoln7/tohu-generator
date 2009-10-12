@@ -24,7 +24,7 @@ template "MultiChoice-Conditional-Questions"
 rule "MultiChoice_Conditional_Question_Add_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
-		$g : Group ( id == "@{groupID}", items == null || items not contains "@{itemID}" )
+		$group : Group ( id == "@{groupID}", items == null || items not contains "@{itemID}" )
 		Question ( id == "@{questionID}", answered == true, textAnswer == "@{condition}" )
 	then
 		MultipleChoiceQuestion question = new MultipleChoiceQuestion("@{itemID}");
@@ -33,20 +33,20 @@ dialect "mvel"
 		question.setPresentationStyles({"@{style}"});		
 		insert(question);
 		
-		$g.appendItem( "@{itemID}", "@{questionID}" );
-		update( $g );		
+		$group.appendItem( "@{itemID}", "@{questionID}" );
+		update( $group );		
 end
 
 rule "MultiChoice_Conditional_Question_Retract_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
-		$g : Group ( id == "@{groupID}", items != null && items contains "@{itemID}" )
+		$group : Group ( id == "@{groupID}", items != null && items contains "@{itemID}" )
 		Question ( id == "@{questionID}", answered == true, textAnswer != "@{condition}" )
-		$q : MultipleChoiceQuestion ( id == "@{itemID}" )		      
+		$question : MultipleChoiceQuestion ( id == "@{itemID}" )		      
 	then		
-		$g.removeItem( "@{itemID}" );
-		update( $g );		
-		retract($q);
+		$group.removeItem( "@{itemID}" );
+		update( $group );		
+		retract($question);
 end
 		
 

@@ -20,8 +20,8 @@ template "Questions"
 rule "Create_Note_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
-		$q : Question( id == "@{questionID}" )
-		$g : Group (items != null && items contains "@{questionID}")
+		Question( id == "@{questionID}" )
+		Group (items != null && items contains "@{questionID}")
 		not ( Note( id == "@{itemID}" ) )
 	then
 		Note note = new Note("@{itemID}", "@{helptext}");
@@ -32,23 +32,23 @@ end
 rule "Insert_Tip_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
-		$q : Question( id == "@{questionID}" )
-		$g : Group (items != null && items contains "@{questionID}" && items not contains "@{itemID}")
-		$n : Note( id == "@{itemID}", (presentationStyles != null && presentationStyles contains "tip") )
+		$question : Question( id == "@{questionID}" )
+		$group : Group (items != null && items contains "@{questionID}" && items not contains "@{itemID}")
+		$note : Note( id == "@{itemID}", (presentationStyles != null && presentationStyles contains "tip") )
 	then
-		$g.insertItem($n.getId(), $q.getId());
-		update ($g);
+		$group.insertItem($note.getId(), $question.getId());
+		update ($group);
 end
 
 rule "Insert_Expanded_Tip_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
-		$q : Question( id == "@{questionID}" )
-		$g : Group (items != null && items contains "@{questionID}" && items not contains "@{itemID}")
-		$n : Note( id == "@{itemID}", (presentationStyles != null && presentationStyles contains "expandedTip") )
+		$question : Question( id == "@{questionID}" )
+		$group : Group (items != null && items contains "@{questionID}" && items not contains "@{itemID}")
+		$note : Note( id == "@{itemID}", (presentationStyles != null && presentationStyles contains "expandedTip") )
 	then
-		$g.appendItem($n.getId(), $q.getId());
-		update ($g);
+		$group.appendItem($note.getId(), $question.getId());
+		update ($group);
 end
 
 end template
