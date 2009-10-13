@@ -1,0 +1,28 @@
+template header
+questionID
+reason
+regularExpression
+
+
+package org.tohu.generator;
+
+ /*
+  * This package has been generated using Tohu Generator
+  * Do not modify by hand if you wish to regenerate
+  */
+  
+import org.tohu.Question;
+import org.tohu.InvalidAnswer;
+
+template "stringValidation"
+
+rule "Validate_String_Answer_@{questionID}_@{row.rowNumber}"
+
+	when
+		$question : Question ( id == "@{questionID}", textAnswer not matches "@{regularExpression}" )
+	then 
+		InvalidAnswer invalidAnswer = new InvalidAnswer("@{questionID}", "@{reason}");
+		insert (invalidAnswer); 
+end
+
+end template

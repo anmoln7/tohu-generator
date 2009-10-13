@@ -22,25 +22,25 @@ template "Possible-Answers"
 rule "Possible_Answers_are_NULL_@{multiChoiceID}_@{value}_@{label}_@{row.rowNumber}"
 dialect "java"
 	when
-		$mcq : MultipleChoiceQuestion ( id == "@{multiChoiceID}", possibleAnswers == null )  
+		$multiChoiceQuestion : MultipleChoiceQuestion ( id == "@{multiChoiceID}", possibleAnswers == null )  
 	then
 		org.tohu.MultipleChoiceQuestion.PossibleAnswer[] answers = new PossibleAnswer[1];
 		answers[0] = new PossibleAnswer("@{value}", "@{label}");		
-		$mcq.setPossibleAnswers(answers);		
-		update( $mcq );		
+		$multiChoiceQuestion.setPossibleAnswers(answers);		
+		update( $multiChoiceQuestion );		
 end
 
 rule "Possible_Answers_not_NULL_@{multiChoiceID}_@{value}_@{label}_@{row.rowNumber}"
 no-loop
 dialect "java"
 	when
-		$mcq : MultipleChoiceQuestion ( id == "@{multiChoiceID}", $pas : possibleAnswers != null, possibleAnswersAsString not matches ".*@{value}.*")
+		$multiChoiceQuestion : MultipleChoiceQuestion ( id == "@{multiChoiceID}", $pas : possibleAnswers != null, possibleAnswersAsString not matches ".*@{value}.*")
 	then
 		PossibleAnswer newAnswer = new PossibleAnswer("@{value}", "@{label}");
 		List<PossibleAnswer> possibleAnswerList = new ArrayList<PossibleAnswer>(Arrays.asList($pas));
 		possibleAnswerList.add(newAnswer);
-		$mcq.setPossibleAnswers(possibleAnswerList.toArray());
-		update( $mcq );		
+		$multiChoiceQuestion.setPossibleAnswers(possibleAnswerList.toArray());
+		update( $multiChoiceQuestion );		
 end
 
 

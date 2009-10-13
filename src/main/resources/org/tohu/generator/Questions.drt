@@ -22,7 +22,7 @@ template "Questions"
 rule "Question_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
-		$g : Group ( id == "@{groupID}", items == null || items not contains "@{itemID}" )
+		$group : Group ( id == "@{groupID}", items == null || items not contains "@{itemID}" )
 	then
 		Question question = new Question("@{itemID}");
 		question.setPreLabel("@{label}");
@@ -31,8 +31,8 @@ dialect "mvel"
 		question.setRequired(@{required});
 		insert(question);
 		
-		$g.addItem( "@{itemID}" );
-		update( $g );		
+		$group.addItem( "@{itemID}" );
+		update( $group );		
 end
 
 end template
