@@ -1,0 +1,26 @@
+package org.tohu.generator
+  
+import org.tohu.Question;
+import org.tohu.InvalidAnswer;
+
+query "find invalid answers"
+	invalidAnswer : InvalidAnswer ()
+end
+
+rule "validate number bounds"
+dialect "java"
+	when
+		$question : Question ( id == "questionID", numberAnswer < 5 || numberAnswer > 10 )
+	then 
+		InvalidAnswer invalidAnswer = new InvalidAnswer($question.getId(), "Invalid answer outside bounds");
+		insert (invalidAnswer);
+end
+
+rule "validate decimal bounds"
+dialect "java"
+	when
+		$question : Question ( id == "questionID", decimalAnswer < 5 || decimalAnswer > 10 )
+	then 
+		InvalidAnswer invalidAnswer = new InvalidAnswer($question.getId(), "Invalid answer outside bounds");
+		insert (invalidAnswer);
+end

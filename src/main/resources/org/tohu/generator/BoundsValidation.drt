@@ -1,7 +1,9 @@
 template header
 questionID
 reason
-regularExpression
+type
+lowerBound
+upperBound
 
 package org.tohu.generator;
 
@@ -13,12 +15,12 @@ package org.tohu.generator;
 import org.tohu.Question;
 import org.tohu.InvalidAnswer;
 
-template "stringValidation"
+template "boundsValidation"
 
-rule "Validate_String_Answer_@{questionID}_@{row.rowNumber}"
+rule "Validate_Bounds_Answer_@{questionID}_@{row.rowNumber}"
 
 	when
-		Question ( id == "@{questionID}", textAnswer not matches "@{regularExpression}" )
+		Question ( id == "@{questionID}", @{type}Answer < @{lowerBound} || @{type}Answer > @{upperBound} )
 	then 
 		InvalidAnswer invalidAnswer = new InvalidAnswer("@{questionID}", "@{reason}");
 		insert (invalidAnswer); 
