@@ -10,6 +10,15 @@ public class SpreadSheetControl {
 	private String template;
 	private String drlName;
 	private String outputDir;
+	
+	
+	public SpreadSheetControl() {
+		super();
+	}
+	public SpreadSheetControl(String id) {
+		super();
+		this.id = id;
+	}
 	public String getId() {
 		return id;
 	}
