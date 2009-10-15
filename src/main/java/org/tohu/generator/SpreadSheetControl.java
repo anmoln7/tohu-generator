@@ -10,7 +10,7 @@ public class SpreadSheetControl {
 	private String template;
 	private String drlName;
 	private String outputDir;
-	
+	private boolean processed;
 	
 	public SpreadSheetControl() {
 		super();
@@ -67,7 +67,12 @@ public class SpreadSheetControl {
 	public void setOutputDir(String outputDir) {
 		this.outputDir = outputDir;
 	}
-	
+		public boolean isProcessed() {
+		return processed;
+	}
+	public void setProcessed(boolean processed) {
+		this.processed = processed;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -77,6 +82,7 @@ public class SpreadSheetControl {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
 				+ ((outputDir == null) ? 0 : outputDir.hashCode());
+		result = prime * result + (processed ? 1231 : 1237);
 		result = prime * result + row;
 		result = prime * result
 				+ ((spreadSheet == null) ? 0 : spreadSheet.hashCode());
@@ -112,6 +118,8 @@ public class SpreadSheetControl {
 				return false;
 		} else if (!outputDir.equals(other.outputDir))
 			return false;
+		if (processed != other.processed)
+			return false;
 		if (row != other.row)
 			return false;
 		if (spreadSheet == null) {
@@ -131,4 +139,5 @@ public class SpreadSheetControl {
 			return false;
 		return true;
 	}
+
 }
