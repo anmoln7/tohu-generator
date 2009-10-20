@@ -13,17 +13,17 @@ package org.tohu.generator;
   
 import org.tohu.Questionnaire;
 
-template "questionaire"
+template "questionnaire"
 
 rule "Questionnaire_@{row.rowNumber}"
 	when
-		// no conditions here
+		not Questionnaire ( id == "@{itemID}" )
 	then
 		Questionnaire questionnaire = new Questionnaire("@{itemID}");
 		questionnaire.setLabel("@{label}");
 		questionnaire.setCompletionAction("@{completionAction}");
 		questionnaire.setActiveItem("@{startGroup}");
-		insertLogical(questionnaire);		
+		insert (questionnaire);		
 end
 
 end template

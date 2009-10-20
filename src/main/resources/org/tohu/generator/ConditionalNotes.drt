@@ -23,9 +23,9 @@ template "Conditional-Notes"
 rule "Conditional_Note_Create_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
+		not Note ( id == "@{itemID}" )
 		Question ( id == "@{questionID}", answered == true, textAnswer == "@{condition}" )
 		Group ( items == null || items not contains "@{questionID}" )
-		not ( Note( id == "@{itemID}" ) )
 	then
 		Note note = new Note("@{itemID}", "@{label}");
 		note.setPresentationStyles({"@{style}"});

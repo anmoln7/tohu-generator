@@ -20,9 +20,9 @@ template "Questions"
 rule "Create_Note_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
+		not ( Note( id == "@{itemID}" ) )
 		Question( id == "@{questionID}" )
 		Group (items != null && items contains "@{questionID}")
-		not ( Note( id == "@{itemID}" ) )
 	then
 		Note note = new Note("@{itemID}", "@{helptext}");
 		note.setPresentationStyles({"@{style}"});

@@ -24,6 +24,7 @@ template "MultiChoice-Conditional-Questions"
 rule "MultiChoice_Conditional_Question_Add_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
+		not MultipleChoiceQuestion ( id == "@{itemID}" )
 		$group : Group ( id == "@{groupID}", items == null || items not contains "@{itemID}" )
 		Question ( id == "@{questionID}", answered == true, textAnswer == "@{condition}" )
 	then

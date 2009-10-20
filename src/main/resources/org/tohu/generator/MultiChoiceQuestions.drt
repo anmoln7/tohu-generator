@@ -22,6 +22,7 @@ template "Multi-Choice-Questions"
 rule "Multi_Choice_Question_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
+		not MultipleChoiceQuestion ( id == "@{itemID}" )
 		$group : Group ( id == "@{groupID}", items == null || items not contains "@{itemID}" )
 	then
 		MultipleChoiceQuestion question = new MultipleChoiceQuestion("@{itemID}");

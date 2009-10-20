@@ -20,6 +20,7 @@ template "groups"
 rule "Group_@{itemID}_@{row.rowNumber}"
 dialect "mvel"
 	when
+		not Group ( id == "@{itemID}" )
 		$group : Group ( id == "@{groupID}", items == null || items not contains "@{itemID}" )
 	then
 		Group group = new Group("@{itemID}");
